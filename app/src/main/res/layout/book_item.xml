@@ -5,6 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:src="@drawable/emptyshelf"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/coverIV"
         android:layout_width="300dp"
         android:layout_height="400dp"
@@ -20,6 +29,7 @@
         android:textSize="18sp"
         android:text="Book Title"
         android:layout_marginTop="20dp"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/coverIV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

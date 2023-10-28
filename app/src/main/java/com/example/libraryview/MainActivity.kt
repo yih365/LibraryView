@@ -1,65 +1,66 @@
 package com.example.libraryview
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.codepath.asynchttpclient.AsyncHttpClient
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
-import okhttp3.Headers
+import android.widget.Button
 
+const val SUBJECT_EXTRA = "SUBJECT_EXTRA"
 class MainActivity : AppCompatActivity() {
-    var subject = "fantasy"
     val TAG = "MainActivity"
+    var subject = ""
 
-    private lateinit var rvBooks: RecyclerView
-    private val bookList = mutableListOf<BookDetail>()
+    lateinit var fantasyBtn: Button
+//    lateinit var nonfictionBtn: Button
+//    lateinit var classicsBtn: Button
+    lateinit var comicsBtn: Button
+    lateinit var essayBtn: Button
+    lateinit var romanceBtn: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        rvBooks = findViewById(R.id.booksRV)
+        fantasyBtn = findViewById(R.id.fantasyBtn)
+//        nonfictionBtn = findViewById(R.id.nonfictionBtn)
+//        classicsBtn = findViewById(R.id.classicsBtn)
+        comicsBtn = findViewById(R.id.comicsBtn)
+        essayBtn = findViewById(R.id.essayBtn)
+        romanceBtn = findViewById(R.id.romanceBtn)
 
-        val booksAdapter = BooksAdapter(this, bookList)
-        rvBooks.adapter = booksAdapter
-        rvBooks.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        getBooksBySubject(subject)
+        fantasyBtn.setOnClickListener {
+            subject = "fantasy"
+            gotoSubjectPage()
+        }
+//        nonfictionBtn.setOnClickListener {
+//            subject = "nonfiction"
+//            gotoSubjectPage()
+//        }
+//        classicsBtn.setOnClickListener {
+//            subject = "classics"
+//            gotoSubjectPage()
+//        }
+        comicsBtn.setOnClickListener {
+            subject = "comic"
+            gotoSubjectPage()
+        }
+        essayBtn.setOnClickListener {
+            subject = "essay"
+            gotoSubjectPage()
+        }
+        romanceBtn.setOnClickListener {
+            subject = "romance"
+            gotoSubjectPage()
+        }
     }
 
-    private fun getBooksBySubject(subject: String) {
-        val URL = "http://openlibrary.org/subjects/$subject.json"
-        val client = AsyncHttpClient()
-
-        client.get(URL, object: JsonHttpResponseHandler() {
-            override fun onFailure(
-                statusCode: Int,
-                headers: Headers?,
-                response: String?,
-                throwable: Throwable?
-            ) {
-                Log.e(TAG, statusCode.toString())
-                if (response != null) {
-                    Log.e(TAG, "failed to get caption $response")
-                }
-            }
-
-            override fun onSuccess(statusCode: Int, headers: Headers?, json: JSON?) {
-                val worksJsonArray = json?.jsonObject?.getJSONArray("works")
-                Log.d(TAG, worksJsonArray.toString())
-                if (worksJsonArray != null) {
-                    for (i in 0 until worksJsonArray.length()) {
-                        val work = worksJsonArray.getJSONObject(i)
-                        val title = work.getString("title")
-                        val coverId = work.getString("cover_id")
-                        val bookDetail = BookDetail(title, "https://covers.openlibrary.org/b/id/$coverId.jpg")
-                        bookList.add(bookDetail)
-                    }
-                    rvBooks.adapter?.notifyDataSetChanged()
-                }
-            }
-        })
+    private fun gotoSubjectPage() {
+        val subjectPageIntent = Intent(this, SubjectPage::class.java)
+        subjectPageIntent.putExtra(SUBJECT_EXTRA, subject)
+        Log.d(TAG, "Going to $subject page.")
+        this.startActivity(subjectPageIntent)
     }
+
 }
