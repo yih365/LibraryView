@@ -26,7 +26,7 @@ The following REQUIRED files are included:
   - [x] Checked off 2+ completed features
   - [x] 2+ Videos/GIFs of build progress
 
-- [x] Our 🎥 Demo Video
+- [x] Our 🎥 Demo Video (Only a gif for this example project)
   - [x] We have also added the Demo Video Link to the Group Info Form on the course portal.
 
 ## 🎥 Demo Video
